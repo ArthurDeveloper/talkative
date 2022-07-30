@@ -1,4 +1,3 @@
-import ScrollBar from 'react-scrollbar';
 import './index.css';
 
 export default function Chat() {
