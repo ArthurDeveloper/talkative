@@ -1,0 +1,33 @@
+:root {
+	--primary-color: #47CDFF;
+	--background-primary: #313742;
+	--background-secondary: #39404d;
+	--background-tertiary: #383a3e;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	font-family: sans-serif;
+	font-weight: 400;
+	height: 100%
+}
+
+.page {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
+.blue-text {
+	color: var(--primary-color);
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+}

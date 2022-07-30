@@ -1,0 +1,4 @@
+.chat {
+	background-color: var(--background-primary);
+	flex: 1;
+}
