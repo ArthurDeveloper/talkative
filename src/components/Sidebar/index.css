@@ -7,7 +7,6 @@ aside {
 .groups {
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
 	padding: 0.5rem 0;
 	width: 100%;
 	background-color: var(--background-secondary);
@@ -18,7 +17,9 @@ aside {
 	align-items: center;
 	gap: 0.4rem;
 	margin-left: 0.3rem;
+	padding: 0.4rem 0 0.4rem 0;
 	border-bottom: 1px solid #555;
+	cursor: pointer;
 }
 
 .group-picture {
@@ -31,4 +32,8 @@ aside {
 .group-name {
 	font-size: 1.2rem;
 	color: var(--text-primary);
+}
+
+.selected {
+	background-color: var(--background-primary);
 }
