@@ -58,7 +58,7 @@
 
 .message-input {
 	background-color: var(--background-secondary);
-	color: var(--text-secondary);
+	color: #fff;
 	border: none;
 	width: 90%;
 	height: 3rem;
@@ -66,4 +66,9 @@
 	padding: 0 1rem 0 1rem;
 	border-radius: 0.5rem;
 	font-size: 1.3rem;
+}
+
+.message-input::placeholder {
+	color: var(--text-secondary);
+}
 }
