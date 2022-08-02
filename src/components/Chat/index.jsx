@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import 'firebase/firebase-firestore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
