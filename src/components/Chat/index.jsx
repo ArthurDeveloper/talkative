@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import 'firebase/firebase-firestore';
+import db from '../../firebase';
+import { getAuth } from 'firebase/auth';
+import { collection, getDocs } from 'firebase/firestore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
@@ -7,13 +9,19 @@ import './index.css';
 export default function Chat() {
 	const messagesRef = useRef(null);
 
-	const [messages, setMessages] = useState(new Array(30).fill(0).map((value, index) => {
-		return { 
-			sender: 'John Doe',
-			senderPicture: 'https://images.pexels.com/photos/834894/pexels-photo-834894.jpeg?auto=compress&cs=tinysrgb&w=600',
-			content: `Message ${index}`
-		}
-	}));
+	const [messages, setMessages] = useState([]);
+	const [userData, setUserData] = useState(null);
+
+	useEffect(() => {
+		(async () => {
+			const messagesCollection = collection(db, 'messages');
+			const messageSnapshot = await getDocs(messagesCollection);
+			const messagesFromDb = messageSnapshot.docs.map(doc => doc.data());
+			setMessages(messagesFromDb);
+
+			setUserData(getAuth().currentUser);
+		})();
+	}, []);
 
 	const handleMessageSent = (event) => {
 		if (event.key === 'Enter') {
@@ -31,8 +39,8 @@ export default function Chat() {
 			}
 
 			setMessages([...messages, {
-				sender: 'John Doe',
-				senderPicture: 'https://images.pexels.com/photos/834894/pexels-photo-834894.jpeg?auto=compress&cs=tinysrgb&w=600',
+				sender: userData.displayName,
+				senderPicture: userData.photoURL,
 				content: event.target.value
 			}]);
 
@@ -48,6 +56,7 @@ export default function Chat() {
 		<div className="chat">
 			<div className="messages-wrapper" ref={(e) => messagesRef.current = e}>
 				{messages.map((message, index) => {
+					
 					return (
 						<div className="message" key={index}>
 							<img
