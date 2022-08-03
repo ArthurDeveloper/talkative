@@ -37,7 +37,6 @@ export default function Sidebar() {
 	useEffect(() => {
 		if (!modalFormSubmitWentWrong) {
 			if (modalGroupNameInput.trim().length === 0) {
-				console.log('monke');
 				setModalFormSubmitWentWrong(true);
 				return;
 			}

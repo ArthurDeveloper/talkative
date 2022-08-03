@@ -10,7 +10,6 @@ export default function App() {
 	const [loggedIn, setLoggedIn] = useState(true);
 	useEffect(() => {
 		const auth = getAuth();
-		console.log(auth);
 		setLoggedIn(auth.currentUser !== null);
 	}, []);
 
