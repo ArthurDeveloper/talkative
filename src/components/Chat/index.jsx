@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import db from '../../firebase';
 import { getAuth } from 'firebase/auth';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, query, orderBy, addDoc, onSnapshot } from 'firebase/firestore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
@@ -13,14 +13,18 @@ export default function Chat() {
 	const [userData, setUserData] = useState(null);
 
 	useEffect(() => {
-		(async () => {
-			const messagesCollection = collection(db, 'messages');
-			const messageSnapshot = await getDocs(messagesCollection);
-			const messagesFromDb = messageSnapshot.docs.map(doc => doc.data());
-			setMessages(messagesFromDb);
+		const messagesQuery = query(collection(db, 'messages'), orderBy('createdAt', 'asc'));
+		const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
+			const docs = snapshot.docs.map((doc) => {	
+				return doc.data();
+			});
 
-			setUserData(getAuth().currentUser);
-		})();
+			setMessages(docs);
+		});
+
+		setUserData(getAuth().currentUser);
+
+		return unsubscribe;
 	}, []);
 
 	const handleMessageSent = (event) => {
@@ -38,11 +42,13 @@ export default function Chat() {
 				return;
 			}
 
-			setMessages([...messages, {
+			const messagesCollection = collection(db, 'messages');
+			addDoc(messagesCollection, {
 				sender: userData.displayName,
 				senderPicture: userData.photoURL,
-				content: event.target.value
-			}]);
+				content: event.target.value,
+				createdAt: new Date()
+			});
 
 			event.target.value = '';
 		}
@@ -56,7 +62,6 @@ export default function Chat() {
 		<div className="chat">
 			<div className="messages-wrapper" ref={(e) => messagesRef.current = e}>
 				{messages.map((message, index) => {
-					
 					return (
 						<div className="message" key={index}>
 							<img
@@ -77,7 +82,7 @@ export default function Chat() {
 				className="message-input"
 				placeholder="Type your message..."
 				onKeyPress={handleMessageSent}
-			/>		
+			/>
 
 			<ToastContainer />
 		</div>

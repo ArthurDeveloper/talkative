@@ -15,7 +15,6 @@ export default function Login() {
 		const auth = getAuth();
 		signInWithPopup(auth, provider)
 			.then((result) => {
-				console.log('here');
 				navigation('/');
 			})
 			.catch((error) => {
