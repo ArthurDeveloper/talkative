@@ -1,0 +1,71 @@
+.login-page {
+	position: fixed;
+	background-color: var(--background-primary);
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.main-text {
+	text-align: center;
+	color: #fff;
+	margin-top: 6rem;
+	font-size: 5rem;
+}
+
+.auth-buttons-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 7rem;
+}
+
+.auth-button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.7rem;
+	margin: 0.2rem;
+	padding: 0.5rem;
+	width: 15rem;
+	border: none;
+}
+
+.auth-button:hover {
+	cursor: pointer;
+}
+
+.auth-button-text {
+	color: #fff;
+	width: 10rem;
+	text-align: left;
+}
+
+.auth-button-icon {
+	width: 1.2rem;
+	height: 1.2rem;
+}
+
+.google-button {
+	background-color: #4285F4;
+}
+
+.google-icon {
+	position: relative;	
+	color: #fff;
+}
+
+.github-button {
+	background-color: #000;
+}
+
+.github-icon {
+	color: #fff;
+}
+
+@media (max-width: 576px) {
+	.main-text {
+		font-size: 4rem;
+	}
+}
