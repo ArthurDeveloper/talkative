@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function App() {
 	const navigation = useNavigate();
+	const [currentGroup, setCurrentGroup] = useState('');
 	const [loggedIn, setLoggedIn] = useState(true);
 	useEffect(() => {
 		const auth = getAuth();
@@ -24,8 +25,8 @@ export default function App() {
 		<div className="page">
 			<Topbar />
 			<div className="row">
-				<Sidebar />
-				<Chat />
+				<Sidebar changeGroup={(newGroup) => setCurrentGroup(newGroup)}/>
+				<Chat group={currentGroup} />
 			</div>
 		</div> 
 	);

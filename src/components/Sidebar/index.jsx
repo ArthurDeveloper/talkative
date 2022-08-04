@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import ReactModal from 'react-modal';
 import './index.css';
 
-export default function Sidebar() {
+export default function Sidebar({ changeGroup }) {
 	const [groups, setGroups] = useState(new Array(5).fill(0).map((value, index) => {
 		return {
 			name: `Group ${index}`,
@@ -33,6 +33,14 @@ export default function Sidebar() {
 		event.preventDefault();
 		setModalFormSubmitWentWrong(false);
 	}
+
+	useEffect(() => {
+		changeGroup(groups[selectedGroup]);
+	}, []);
+
+	useEffect(() => {
+		changeGroup(groups[selectedGroup]);
+	}, [selectedGroup]);
 
 	useEffect(() => {
 		if (!modalFormSubmitWentWrong) {

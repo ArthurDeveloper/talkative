@@ -6,26 +6,31 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
-export default function Chat() {
+export default function Chat({ group }) {
 	const messagesRef = useRef(null);
 
 	const [messages, setMessages] = useState([]);
 	const [userData, setUserData] = useState(null);
 
-	useEffect(() => {
+	const listenForMessagesInCurrentGroup = () => {
 		const messagesQuery = query(collection(db, 'messages'), orderBy('createdAt', 'asc'));
-		const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
+		onSnapshot(messagesQuery, (snapshot) => {
 			const docs = snapshot.docs.map((doc) => {	
-				return doc.data();
-			});
+				return doc.data().group.name === group.name ? doc.data() : null;	
+			}).filter((value) => value !== null);
 
 			setMessages(docs);
 		});
+	}
 
+	useEffect(() => {
 		setUserData(getAuth().currentUser);
-
-		return unsubscribe;
 	}, []);
+
+	useEffect(() => {
+		const unsubscribe = listenForMessagesInCurrentGroup();
+		return unsubscribe;
+	}, [group]);
 
 	const handleMessageSent = (event) => {
 		if (event.key === 'Enter') {
@@ -47,7 +52,8 @@ export default function Chat() {
 				sender: userData.displayName,
 				senderPicture: userData.photoURL,
 				content: event.target.value,
-				createdAt: new Date()
+				group: group,
+				createdAt: new Date(),
 			});
 
 			event.target.value = '';
@@ -68,6 +74,7 @@ export default function Chat() {
 								className="message-picture" 
 								src={message.senderPicture}
 								alt={message.sender}
+								referrerPolicy="no-referrer"
 							/>
 							
 							<div>
