@@ -24,10 +24,9 @@ export default function App() {
 		loggedIn &&
 		<div className="page">
 			<Topbar />
-			<div className="row">
-				<Sidebar changeGroup={(newGroup) => setCurrentGroup(newGroup)}/>
-				<Chat group={currentGroup} />
-			</div>
-		</div> 
+
+			<Sidebar changeGroup={(newGroup) => setCurrentGroup(newGroup)}/>
+			<Chat group={currentGroup} />	
+		</div>
 	);
 }
