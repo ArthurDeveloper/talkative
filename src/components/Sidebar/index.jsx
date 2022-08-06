@@ -1,14 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
+import db from '../../firebase';
+import { collection, query, orderBy, addDoc, onSnapshot } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import ReactModal from 'react-modal';
 import './index.css';
 
 export default function Sidebar({ changeGroup }) {
-	const [groups, setGroups] = useState(new Array(5).fill(0).map((value, index) => {
-		return {
-			name: `Group ${index}`,
-			picture: 'https://images.pexels.com/photos/834894/pexels-photo-834894.jpeg?auto=compress&cs=tinysrgb&w=600'
-		}
-	}));
+	const [groups, setGroups] = useState([]);
 
 	const [selectedGroup, setSelectedGroup] = useState(0);
 
@@ -20,13 +18,26 @@ export default function Sidebar({ changeGroup }) {
 
 	const [modalFormSubmitWentWrong, setModalFormSubmitWentWrong] = useState(false);
 
-	const addGroup = (name, picture) => {
+	const addGroup = async (name, picture) => {
 		setGroups([...groups, { name, picture }]);
+
+		const storage = getStorage();
+		const storageRef = ref(storage, `group_pics/${name}`);
+		await uploadBytes(storageRef, picture);
+
+		const groupsCollection = collection(db, 'groups');
+		await addDoc(groupsCollection, { 
+			name, 
+			picture: `group_pics/${name}`,
+			createdAt: new Date()
+		});
+
+		setModalOpen(false);
 	}
 
 	const handleGroupImageSelected = (event) => {
 		modalPictureDisplay.current.src = URL.createObjectURL(event.target.files[0]);
-		setModalGroupPictureInput(URL.createObjectURL(event.target.files[0]));
+		setModalGroupPictureInput(event.target.files[0]);
 	}
 
 	const handleGroupAddFormSubmit = (event) => {
@@ -35,7 +46,37 @@ export default function Sidebar({ changeGroup }) {
 	}
 
 	useEffect(() => {
-		changeGroup(groups[selectedGroup]);
+		const groupsQuery = query(collection(db, 'groups'), orderBy('createdAt', 'asc'));
+		const unsubscribe = onSnapshot(groupsQuery, (snapshot) => {
+			const docs = snapshot.docs.map((doc) => {
+				return doc.data();
+			});
+
+			const fetchImage = async (doc) => {
+				const storage = getStorage();	
+				const url = await getDownloadURL(ref(storage, doc.picture));
+
+				return url;
+			}
+
+			const loadImages = async () => {
+				const newGroups = docs.filter((doc) => (
+					!groups.includes(doc)
+				));
+
+				for (let i = 0; i < newGroups.length; i++) {
+					const image = await fetchImage(newGroups[i]);
+					newGroups[i].picture = image;	
+					setGroups((groups) => [...groups, newGroups[i]]);
+				}
+			}
+
+			(async () => {
+				await loadImages();
+			})();
+		});
+
+		return unsubscribe;
 	}, []);
 
 	useEffect(() => {
@@ -43,13 +84,14 @@ export default function Sidebar({ changeGroup }) {
 	}, [selectedGroup]);
 
 	useEffect(() => {
-		if (!modalFormSubmitWentWrong) {
+		if (modalFormSubmitWentWrong === false) {
 			if (modalGroupNameInput.trim().length === 0) {
 				setModalFormSubmitWentWrong(true);
 				return;
 			}
 			setModalOpen(false);
-			addGroup(modalGroupNameInput, modalGroupPictureInput);
+			(async () => await addGroup(modalGroupNameInput, modalGroupPictureInput))();
+			setModalFormSubmitWentWrong(null);
 		}
 	}, [modalFormSubmitWentWrong]);
 

@@ -1,13 +1,21 @@
 aside {
 	display: flex;
-	flex: 1;
 	max-width: 20%;
+	height: 100vh;
+	max-height: 90vh;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+aside::-webkit-scrollbar-track {
+	border-radius: 0;
+	width: 0.5rem;
 }
 
 .groups {
 	display: flex;
 	flex-direction: column;
-	padding: 0.5rem 0;
+	flex: 1;
 	width: 100%;
 	background-color: var(--background-secondary);
 }
@@ -16,10 +24,10 @@ aside {
 	display: flex;
 	align-items: center;
 	gap: 0.4rem;
-	margin-left: 0.3rem;
 	padding: 0.4rem 0 0.4rem 0;
 	border-bottom: 1px solid #555;
 	cursor: pointer;
+	background-color: var(--background-secondary);
 }
 
 .group-picture {
@@ -32,6 +40,7 @@ aside {
 .group-name {
 	font-size: 1.2rem;
 	color: var(--text-primary);
+	margin-left: 0.3rem;
 }
 
 .add-group-btn-wrapper {
@@ -40,6 +49,7 @@ aside {
 	justify-content: center;
 	width: 100%;
 	height: 3rem;
+	background-color: var(--background-secondary);
 }
 
 .add-group-btn {

@@ -15,11 +15,13 @@ export default function Chat({ group }) {
 	const listenForMessagesInCurrentGroup = () => {
 		const messagesQuery = query(collection(db, 'messages'), orderBy('createdAt', 'asc'));
 		onSnapshot(messagesQuery, (snapshot) => {
+			setMessages([]);
 			const docs = snapshot.docs.map((doc) => {	
-				return doc.data().group.name === group.name ? doc.data() : null;	
-			}).filter((value) => value !== null);
-
-			setMessages(docs);
+				const data = doc.data().group.name === group.name ? doc.data() : null;	
+				if (data !== null) {
+					setMessages((messages) => [...messages, data]);
+				}
+			});
 		});
 	}
 
