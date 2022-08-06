@@ -19,8 +19,13 @@ html, body {
 }
 
 .page {
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: 1fr 4fr;
+	grid-template-rows: 0.5fr 4fr;
+	grid-template-areas: 
+		"topbar topbar"
+		"sidebar chat"
+	;
 	height: 100vh;
 	max-height: 100vh;
 }

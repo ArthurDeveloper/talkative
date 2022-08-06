@@ -110,7 +110,7 @@ export default function Sidebar({ changeGroup }) {
 						</div>
 					)
 				})}
-			
+
 				<div className="add-group-btn-wrapper">
 					<button
 						className="add-group-btn"

@@ -1,4 +1,7 @@
 .topbar {
+	grid-area: topbar;
+	display: flex;
+	align-items: center;
 	font-family: Tahoma, sans-serif;
 	font-size: 1.5rem;
 	background-color: var(--background-tertiary);
