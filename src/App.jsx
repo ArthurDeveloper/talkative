@@ -11,7 +11,9 @@ export default function App() {
 	const [loggedIn, setLoggedIn] = useState(true);
 	useEffect(() => {
 		const auth = getAuth();
-		setLoggedIn(auth.currentUser !== null);
+		auth.onAuthStateChanged((state) => {
+			setLoggedIn(state !== null);
+		});
 	}, []);
 
 	useEffect(() => {
