@@ -65,9 +65,11 @@ export default function Sidebar({ changeGroup }) {
 				));
 
 				for (let i = 0; i < newGroups.length; i++) {
-					const image = await fetchImage(newGroups[i]);
-					newGroups[i].picture = image;	
-					setGroups((groups) => [...groups, newGroups[i]]);
+					(async () => {
+						const image = await fetchImage(newGroups[i]);
+						newGroups[i].picture = image;	
+						setGroups((groups) => [...groups, newGroups[i]]);
+					})();
 				}
 			}
 
