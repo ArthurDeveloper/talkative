@@ -21,7 +21,7 @@ export default function App() {
 		if (sidebarOpen) {
 			pageRef.current.classList.remove('page-mobile-sidebar-closed');
 		} else {
-			pageRef.current.classList.toggle('page-mobile-sidebar-closed');
+			pageRef.current.classList.add('page-mobile-sidebar-closed');
 		}
 	}
 
@@ -40,7 +40,7 @@ export default function App() {
 		});
 
 		window.addEventListener('resize', () => {
-			if (window.innerWidth < 768) {
+			if (window.innerWidth <= 768) {
 				setSidebarOpen(false);
 			}
 		});
@@ -48,16 +48,16 @@ export default function App() {
 
 	useEffect(() => {
 		if (!loggedIn) {
-			// navigation('/login');
+			navigation('/login');
 		}
 	}, [loggedIn]);
 
 	
 	useEffect(() => {
-		if (touchEnd - touchStart > 250) {
+		if (touchEnd - touchStart >= 250) {
 			console.log('swipe left');
 			setSidebarOpen(true);
-		} else if (touchStart - touchEnd > 250) {
+		} else if (touchStart - touchEnd >= 250) {
 			console.log('swipe right');
 			setSidebarOpen(false);
 		}
@@ -77,7 +77,16 @@ export default function App() {
 		>
 			<Topbar />
 
-			<Sidebar changeGroup={(newGroup) => setCurrentGroup(newGroup)} open={sidebarOpen}/>
+			<Sidebar 
+				changeGroup={(newGroup) => {
+					setCurrentGroup(newGroup);
+					if (sidebarOpen && window.innerWidth <= 768) {
+						setSidebarOpen(false);
+					}
+				}} 
+				open={sidebarOpen}
+			/>
+
 			<Chat group={currentGroup} />	
 		</div>
 	);
