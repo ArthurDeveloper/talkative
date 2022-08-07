@@ -101,7 +101,7 @@ export default function Sidebar({ changeGroup, open }) {
 		<>
 			<div className="dummy-background"  />
 			<aside style={{
-				width: open ? '100%' : '0',
+				display: open ? 'block' : 'none',
 				transform: open ? 'translateX(0)' : 'translateX(-100%)',
 				transition: 'transform 300ms cubic-bezier(.17,.67,0,1.45)',	
 			}}>
