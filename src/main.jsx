@@ -11,19 +11,17 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-	<React.StrictMode>
-		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<App />} />
-				<Route path="login" element={<Login />} />
-				<Route path="*" element={
-					<div>
-						Page couldn't be found!😢
-						<br/>
-						<NavLink to='/'>Back to home</NavLink>
-					</div>
-				} />
-			</Routes>
-		</BrowserRouter>
-	</React.StrictMode>
+	<BrowserRouter>
+		<Routes>
+			<Route path="/" element={<App />} />
+			<Route path="login" element={<Login />} />
+			<Route path="*" element={
+				<div>
+					Page couldn't be found!😢
+					<br/>
+					<NavLink to='/'>Back to home</NavLink>
+				</div>
+			} />
+		</Routes>
+	</BrowserRouter>
 );
