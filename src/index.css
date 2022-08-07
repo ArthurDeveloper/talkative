@@ -30,14 +30,15 @@ html, body {
 	max-height: 100vh;
 }
 
-.blue-text {
-	color: var(--primary-color);
+.page-mobile-sidebar-closed {
+	grid-template-areas: 
+		"topbar topbar"
+		"chat chat"
+	;
 }
 
-.row {
-	display: flex;
-	flex-direction: row;
-	flex: 1;
+.blue-text {
+	color: var(--primary-color);
 }
 
 ::-webkit-scrollbar {
@@ -53,3 +54,4 @@ html, body {
 	background-color: var(--background-secondary);
 	border-radius: 0.7rem;
 }
+
