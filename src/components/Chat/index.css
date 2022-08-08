@@ -58,3 +58,8 @@
 	color: var(--text-secondary);
 }
 
+@media (max-height: 768px) {
+	.messages-wrapper {
+		height: 100%;
+	}
+}
