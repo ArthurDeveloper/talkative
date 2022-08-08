@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import db from '../../firebase';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { collection, query, orderBy, addDoc, onSnapshot } from 'firebase/firestore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -26,7 +26,10 @@ export default function Chat({ group }) {
 	}
 
 	useEffect(() => {
-		setUserData(getAuth().currentUser);
+		const auth = getAuth();
+		onAuthStateChanged(auth, (state) => {
+			setUserData(state);
+		});
 	}, []);
 
 	useEffect(() => {
