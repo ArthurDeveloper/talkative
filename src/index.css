@@ -33,7 +33,7 @@ html, body {
 }
 
 .page-mobile-sidebar-closed {
-	grid-template-areas: 
+	grid-template-areas:
 		"topbar topbar"
 		"chat chat"
 	;

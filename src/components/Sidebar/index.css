@@ -112,6 +112,27 @@ aside::-webkit-scrollbar-track {
 	}
 }
 
+.add-group-modal-close-btn {
+	display: inline-block;
+	background-color: #00000000;
+	color: #fff;
+	border: none;
+	font-size: 1.6rem;
+	font-weight: bold;
+	padding: 0.7rem 1.2rem 0.7rem 1.2rem;
+	transition: background-color 200ms cubic-bezier(0, 0.90, 1, 1);
+	cursor: pointer;
+}
+
+.add-group-modal-close-btn:hover {
+	background-color: #f00;
+}
+
+.add-group-modal-title {
+	display: inline-block;
+	margin-left: 1rem;
+}
+
 .add-group-modal-form {
 	display: flex;
 	flex-direction: column;
@@ -198,5 +219,11 @@ input[type="file"] {
 @media (max-width: 768px) {
 	aside {
 		width: 100vw !important;
+	}
+}
+
+@media (max-width: 576px) {
+	.add-group-modal-close-btn {
+		padding: 0.2rem 0.7rem;
 	}
 }

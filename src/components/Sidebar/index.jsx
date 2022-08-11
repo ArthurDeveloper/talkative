@@ -29,7 +29,7 @@ export default function Sidebar({ changeGroup, open }) {
 		await addDoc(groupsCollection, { 
 			name, 
 			picture: `group_pics/${name}`,
-			createdAt: new Date()
+			createdAt: new Date(),
 		});
 
 		setModalOpen(false);
@@ -144,13 +144,20 @@ export default function Sidebar({ changeGroup, open }) {
 								border: 'none',
 								borderRadius: '0.5rem',
 								color: '#fff',
-								padding: '2.5rem',
+								padding: '1.5rem',
 								animation: modalOpen ? 
 									'add-group-modal-content-fade-in 400ms cubic-bezier(.21,-0.07,0,1.24)' : 'none',
-							} 
+								
+							},
 						}}
 					>
-						<h1>Add group</h1>
+						<button 
+							className="add-group-modal-close-btn" 
+							onClick={() => setModalOpen(false)}
+						>
+							X
+						</button>
+						<h1 className="add-group-modal-title">Add group</h1>
 
 						<form className="add-group-modal-form" onSubmit={handleGroupAddFormSubmit}>
 							<input
