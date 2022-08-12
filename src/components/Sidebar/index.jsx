@@ -18,10 +18,7 @@ export default function Sidebar({ changeGroup, open }) {
 
 	const [modalFormSubmitWentWrong, setModalFormSubmitWentWrong] = useState(false);
 
-	const [windowSize, setWindowSize] = useState({
-		width: window.innerWidth,
-		height: window.innerHeight,
-	});
+	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
 	const addGroup = async (name, picture) => {
 		setGroups([...groups, { name, picture }]);
@@ -52,10 +49,7 @@ export default function Sidebar({ changeGroup, open }) {
 
 	useEffect(() => {
 		window.addEventListener('resize', () => {
-			setWindowSize({
-				width: window.innerWidth,
-				height: window.innerHeight,
-			});
+			setWindowWidth(window.innerWidth);
 		});
 
 		const groupsQuery = query(collection(db, 'groups'), orderBy('createdAt', 'asc'));
@@ -159,9 +153,9 @@ export default function Sidebar({ changeGroup, open }) {
 								padding: '1.5rem',
 								animation: modalOpen ? 
 									'add-group-modal-content-fade-in 400ms cubic-bezier(.21,-0.07,0,1.24)' : 'none',
-								inset: windowSize.width <= 640 ? '0' : '40px',
-								width: windowSize.width <= 640 ? '100vw' : 'auto',
-								height: windowSize.width <= 640 ? '100vh' : 'auto',
+								inset: windowWidth <= 640 ? '0' : '40px',
+								width: windowWidth <= 640 ? '100vw' : 'auto',
+								height: windowWidth <= 640 ? '100vh' : 'auto',
 							},
 						}}
 					>
